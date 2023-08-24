@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
+import 'package:politec_assignment/featrue/animation.dart';
 
 class RadioPage extends StatefulWidget {
   const RadioPage({Key? key}) : super(key: key);
@@ -10,6 +12,22 @@ class RadioPage extends StatefulWidget {
 class _RadioPageState extends State<RadioPage> {
   int? _selectedIndex;
   final List<String> _bloodType = const ['A', 'B', 'AB', 'O'];
+  late RiveAnimationController controller;
+  final SendAnimation sendAnimation = SendAnimation();
+
+  _changeAnimation() {
+    setState(() {
+      sendAnimation.changeAnimation();
+      controller = sendAnimation.getController();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = sendAnimation.getController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +124,19 @@ class _RadioPageState extends State<RadioPage> {
                   },
                   child: const Text('choice', style: TextStyle(fontSize: 20)))
             ],
-          )
+          ),
+          SizedBox(
+            height: 300, // Rive Editorで設定した数値にしておく
+            width: 400,
+            child: InkWell(
+              // RiveAnimation.assetをタップ可能にするため
+              child: RiveAnimation.asset(
+                'assets/click.riv', // 作成した.rivを指定
+                controllers: [controller], //
+              ),
+              onTap: () => _changeAnimation(), //　アニメーションを切り替える処理
+            ),
+          ),
         ],
       )),
     );
