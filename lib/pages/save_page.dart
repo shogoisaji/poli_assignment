@@ -14,6 +14,8 @@ class SavePage extends StatefulWidget {
 
 class _SavePageState extends State<SavePage>
     with SingleTickerProviderStateMixin {
+  bool _visible = false;
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
@@ -261,6 +263,20 @@ class _SavePageState extends State<SavePage>
                       hz: 0.2,
                       rotation: 0.4,
                       offset: const Offset(450, 120.5)),
+// fade out & fade in
+              AnimatedOpacity(
+                opacity: _visible ? 0 : 1,
+                duration: const Duration(seconds: 1),
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  color: Colors.green,
+                ),
+              ),
+              TextButton(
+                child: Text('button'),
+                onPressed: () => setState(() => _visible = !_visible),
+              ),
             ]),
           ),
         ),
